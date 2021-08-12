@@ -1,0 +1,122 @@
+<body >
+<style>
+body {
+      background-image: url('https://cdn.substack.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F3a10c3a8-d054-461c-9930-0d50c355af75_1920x1080.jpeg');
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+}
+
+.input{
+     font-weight: bold;
+     font-style: italic;
+     font-size: 20px;
+}
+
+#in1 {
+     border-radius: 25px;
+     border: 2px solid #609;
+     padding: 20px; 
+     width: 600px;
+     height: 15px;    
+     background: rgba(255, 255, 255);
+}
+
+div {
+     background: rgba(0, 0, 0, 0.3);
+    
+}
+//https://www.whitesourcesoftware.com/wp-content/media/2020/09/docker-in.jpg
+a {
+     text-decoration: none;
+     color: #0000FF;
+     font-size: 18px;
+}
+
+h1 {
+     font-size: 75px;
+}
+
+h2 {
+     font-size: 50px;
+}
+</style>
+
+<script>
+function ap() {
+
+var i= document.getElementById("in1").value
+
+
+if (((i.includes("launch"))||(i.includes("run")))&&(i.includes("container"))) {
+	//document.write("Hello");
+	var cname=prompt("Enter name of container :")
+
+	var imgname=prompt("Enter name and version of image:")
+	
+	var xhr1=new XMLHttpRequest();
+	xhr1.open("GET", "http://192.168.105.151/cgi-bin/ap.py?x="+i+"&"+"y="+cname+"&"+"z="+imgname ,true);
+
+	xhr1.send();
+	xhr1.onload= function() {	
+		var output=xhr1.responseText;
+		document.getElementById("d1").innerHTML=output;
+	}
+}
+else if (((i.includes("remove"))||(i.includes("delete"))||(i.includes("terminate")))&&(i.includes("container"))){
+	cname= prompt("Enter name of container you want to delete/remove:")
+	imgname=''
+
+	var xhr2=new XMLHttpRequest();
+        xhr2.open("GET", "http://192.168.105.151/cgi-bin/ap.py?x="+i+"&"+"y="+cname+"&"+"z="+imgname ,true);
+
+        xhr2.send();
+        xhr2.onload= function() {       
+                var output=xhr2.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+
+	
+}
+else if (((i.includes("execute"))||(i.includes("run")))&&(i.includes("command"))){
+	cname= prompt("Enter name of container:")
+	cmdname= prompt("Enter command that you want to execute on container:")
+	imgname=''
+	var xhr3=new XMLHttpRequest();
+        xhr3.open("GET", "http://192.168.105.151/cgi-bin/ap.py?x="+i+"&"+"y="+cname+"&"+"z="+imgname+"&"+"c="+cmdname ,true);
+
+        xhr3.send();
+        xhr3.onload= function() {       
+                var output=xhr3.responseText;
+                document.getElementById("d1").innerHTML=output;
+        }
+	
+}
+else {
+	cname=''
+	imgname=''
+	var final = i +" "+cname+" "+imgname
+	//document.write(final);
+	var xhr=new XMLHttpRequest();
+	xhr.open("GET", "http://192.168.105.151/cgi-bin/ap.py?x="+final ,true);
+	
+	xhr.send();
+
+	xhr.onload= function() {	
+		var output=xhr.responseText;
+		document.getElementById("d1").innerHTML=output;
+	}
+}
+
+}
+</script>
+<center><h1> ------WELCOME TO DOCKER WEB UI------</h1></center>
+<h2>Enter your Command:</h2>-<input id="in1" size="20"/>
+<br />
+
+<pre>
+<b><a><div id="d1"><h3>Output...</h3></div></a></b>
+
+<br/>
+<input type="image" style="width:7%"  onclick="ap()" src="https://ngee-tropics.lbl.gov/wp-content/uploads/sites/16/2017/02/SUBMIT-BUTTON.png" />
+</pre>
